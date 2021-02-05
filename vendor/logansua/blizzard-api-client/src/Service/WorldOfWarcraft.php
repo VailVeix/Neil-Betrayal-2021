@@ -16,9 +16,24 @@ class WorldOfWarcraft extends Service
      */
     protected $serviceParam = '';
 
+    public function getGuildRoster($realmSlug, $guildName, array $options = [])
+    {
+        $response = $this->request('/data/wow/guild/'. $realmSlug . '/' . $guildName . '/roster', $options);
+        $response->getStatusCode();
+        $response->getHeaders();
+        $body = $response->getBody()->getContents();
+        $guildRoster = json_decode($body, true);
+        return $guildRoster;
+    }
+
     public function getCharacterEquipment($realmSlug, $characterName, array $options = [])
     {
-        return $this->request('/profile/wow/character/'. $realmSlug . '/' . $characterName . '/equipment', $options);
+        $response = $this->request('/profile/wow/character/'. $realmSlug . '/' . $characterName . '/equipment', $options);
+        $response->getStatusCode();
+        $response->getHeaders();
+        $body = $response->getBody()->getContents();
+        $characterInfo = json_decode($body, true);
+        return $characterInfo;
     }
 
     // region Achievement API

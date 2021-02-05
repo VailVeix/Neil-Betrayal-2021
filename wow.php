@@ -1,250 +1,81 @@
 <?php
 require_once 'vendor/autoload.php';
 
-class CharacterEquipment{
+//$guildID = $_GET['id'];
+$guildID = 1;
 
-	public $characterName;
-	public $head;
-	public $neck;
-	public $shoudler;
-	public $chest;
-	public $waist;
-	public $legs;
-	public $feets;
-	public $wrist;
-	public $hands;
-	public $finger1;
-	public $finger2;
-	public $trinket1;
-	public $trinket2;
-	public $back;
-	public $mainWeapon;
-	public $shield;
+// DB LINKAGE
+// TODO : PORT TO OTHER FILE- CLASS
+    $bal_username = 'vailveix_maine';
+    $bal_password = "e5l=QVfC]gOA";
+    $bal_host = 'localhost';
+    $admin_database = 'vailveix_neil_betrayal_2021';
 
+    global $db_link;
+    $db_link = new mysqli($bal_host, $bal_username, $bal_password, $admin_database);
 
-	public function __construct($name){
-        $this->characterName = $name;
+    if($db_link->connect_errno > 0){
+        exit();
     }
 
-    public function setHead($headInput){
-    	$this->head = $headInput;
-    }
+//$armorTypes = ["", "", "", "Mail"];
 
-    public function setNeck($neckInput){
-    	$this->neck = $neckInput;
-    }
-
-    public function setShoulder($shoulderInput){
-    	$this->shoulder = $shoulderInput;
-    }
-
-    public function setChest($chestInput){
-    	$this->chest = $chestInput;
-    }
-
-    public function setWaist($waistInput){
-    	$this->waist = $waistInput;
-    }
-
-    public function setLegs($legsInput){
-    	$this->legs = $legsInput;
-    }
-
-    public function setFeets($feetsInput){
-    	$this->feets = $feetsInput;
-    }
-
-    public function setWrist($wristInput){
-    	$this->wrist = $wristInput;
-    }
-
-    public function setHands($handsInput){
-    	$this->hands = $handsInput;
-    }
-
-    public function setFinger1($fnger1Input){
-    	$this->finger1 = $fnger1Input;
-    }
-
-    public function setFinger2($finger2Input){
-    	$this->finger2 = $finger2Input;
-    }
-
-    public function setTrinket1($trinket1Input){
-    	$this->trinket1 = $trinket1Input;
-    }
-
-    public function setTrinket2($trinket2Input){
-    	$this->trinket2 = $trinket2Input;
-    }
-
-    public function setBack($backInput){
-    	$this->back = $backInput;
-    }
-
-    public function setMainWeapon($mainWeaponInput){
-    	$this->mainWeapon = $mainWeaponInput;
-    }
-
-    public function setShield($shieldInput){
-    	$this->shield = $shieldInput;
-    }
-}
-
-class Equipment{
-	public $name;
-	public $itemLevel;
-	public $armor;
-	public $armorType;
-	public $intellect;
-	public $agility;
-	public $stamina;
-	public $haste;
-	public $mastery;
-
-    private $armorTypes = ["", "", "", "Mail"];
-
-	public function __construct($nameInput, $itemLevelInput, $armorInput, $armorTypeInput){
-        $this->name = $nameInput;
-        $this->itemLevel = $itemLevelInput;
-        $this->armorInput = $armorInput;
-        $this->armorTypeInput = $armorTypeInput;
-    }
-
-    public function setIntellect($intellectInput){
-        $this->intellect = $intellectInput;
-    }
-
-    public function setAgility($agilityInput){
-        $this->agility = $agilityInput;
-    }
-
-    public function setStamina($staminaInput){
-        $this->stamina = $staminaInput;
-    }
-
-    public function setHaste($hasteInput){
-        $this->haste = $hasteInput;
-    }
-
-    public function setMastery($masteryInput){
-        $this->mastery = $masteryInput;
-    }
-
-}
-
-// Create a new Blizzard client with Blizzard API key and secret
-$client = new \BlizzardApi\BlizzardClient('1302d1b8a0fd4362b9943c763a67229c', '8j14aWZw0KWfBAC8UbBIwWqnfHP8uk8h');
-
-// Create a new World Of Warcraft service with configured Blizzard client
-$wow = new \BlizzardApi\Service\WorldOfWarcraft($client);
-
-$accessToken = $client->getAccessToken();
-
-// Use API method for getting specific data
-$response = $wow->getCharacterEquipment('rivendare', 'mooanna', ['namespace' => 'profile-us', 'access_token' => $accessToken]);
-
-// Accessing response status code
-$response->getStatusCode();
-
-// Accessing response headers
-$response->getHeaders();
-
-$body = $response->getBody()->getContents();
-
-//print_r($body);
-
-$characterInfo = json_decode($body, true);
-
-/*echo "<pre>";
-print_r($characterInfo);
-echo "</pre>";*/
-
-$character = new CharacterEquipment($characterInfo['character']['name']);
-
-//print_r($character);
-
-foreach ($characterInfo['equipped_items'] as $key => $item) {
-    $equipment = new Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id']);
-
-    foreach ($item['stats'] as $key => $stat) {
-        switch ($stat['type']['type']) {
-            case 'INTELLECT':
-                $equipment->setIntellect($stat['value']);
-                break;
-            case 'AGILITY':
-                $equipment->setAgility($stat['value']);
-                break;
-            case 'STAMINA':
-                $equipment->setStamina($stat['value']);
-                break;
-            case 'HASTE_RATING':
-                $equipment->setHaste($stat['value']);
-                break;
-            case 'MASTERY_RATING':
-                $equipment->setMastery($stat['value']);
-                break;
-            default:
-                echo "new stat, or error";
-                break;
+// TODO PORT TO OTHER FILE
+//CONFIG FUCNTION
+    function beepdata_master($query, $db_link){
+        if(!$result = $db_link->query($query)){
+            echo $err=$db_link->real_escape_string($db_link->error);
+            die('An error has occurred !');
+        }
+        else{
+            return $result->fetch_assoc();
         }
     }
-	
-    switch ($item['slot']['type']) {
-        case 'HEAD':
-            $character->setHead($equipment);
-            break;
-        case 'NECK':
-            $character->setNeck($equipment);
-            break;
-        case 'SHOULDER':
-            $character->setShoulder($equipment);
-            break;
-        case 'CHEST':
-            $character->setChest($equipment);
-            break;
-        case 'WAIST':
-            $character->setWaist($equipment);
-            break;
-        case 'LEGS':
-            $character->setLegs($equipment);
-            break;
-        case 'FEET':
-            $character->setFeets($equipment);
-            break;
-        case 'WRIST':
-            $character->setWrist($equipment);
-            break;
-        case 'HANDS':
-            $character->setHands($equipment);
-            break;
-        case 'FINGER_1':
-            $character->setFinger1($equipment);
-            break;
-        case 'FINGER_2':
-            $character->setFinger2($equipment);
-            break;
-        case 'TRINKET_1':
-            $character->setTrinket1($equipment);
-            break;
-        case 'TRINKET_2':
-            $character->setTrinket2($equipment);
-            break;
-        case 'BACK':
-            $character->setBack($equipment);
-            break;
-        case 'MAIN_HAND':
-            $character->setMainWeapon($equipment);
-            break;
-        case 'OFF_HAND':
-            $character->setShield($equipment);
-            break;
-        default:
-            # code...
-            break;
+
+// WoW API Requests
+    function getCharacterEquipmentRequest($accessToken, $realmSlug, $characterName){
+    // Use API method for getting specific data
+        $response = $wow->getCharacterEquipment($realmSlug, $characterName, ['namespace' => 'profile-us', 'access_token' => $accessToken]);
+        return $characterInfo;
     }
+
+    function characterNameParse($link){
+        $last = strrpos($link, "/");
+        $link = substr($link, $last+1);
+        $link = explode("?", $link);
+        return $link[0];
+    }
+
+// Client Setup & Connect
+    // Create a new Blizzard client with Blizzard API key and secret
+    $client = new \BlizzardApi\BlizzardClient('1302d1b8a0fd4362b9943c763a67229c', '8j14aWZw0KWfBAC8UbBIwWqnfHP8uk8h');
+
+    // Create a new World Of Warcraft service with configured Blizzard client
+    $wow = new \BlizzardApi\Service\WorldOfWarcraft($client);
+
+    $accessToken = $client->getAccessToken();
+
+$query = "select * from guilds where id=$guildID";
+$guildInfo = beepdata_master($query, $db_link);
+
+$guildRoster = $wow->getGuildRoster($guildInfo['realmSlug'], $guildInfo['name'], ['namespace' => 'profile-us', 'access_token' => $accessToken]);
+
+/*echo "<pre>";
+print_r($guildRoster);
+echo "</pre>";*/
+
+$members = array();
+
+foreach ($guildRoster['members'] as $key => $guildie) {
+    $characterInfo = $wow->getCharacterEquipment($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
+
+    $character = new \WoW\CharacterEquipment($characterInfo);
+    array_push($members, $character);
 }
 
-print_r($character);
+echo "<pre>";
+print_r($members);
+echo "</pre>";
+
 
 ?>
