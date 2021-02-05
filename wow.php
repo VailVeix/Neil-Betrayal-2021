@@ -111,23 +111,23 @@ class Equipment{
         $this->armorTypeInput = $armorTypeInput;
     }
 
-    public setIntellect($intellectInput){
+    public function setIntellect($intellectInput){
         $this->intellect = $intellectInput;
     }
 
-    public setAgility($agilityInput){
+    public function setAgility($agilityInput){
         $this->agility = $agilityInput;
     }
 
-    public setStamina($staminaInput){
+    public function setStamina($staminaInput){
         $this->stamina = $staminaInput;
     }
 
-    public setHaste($hasteInput){
+    public function setHaste($hasteInput){
         $this->haste = $hasteInput;
     }
 
-    public setMastery($masteryInput){
+    public function setMastery($masteryInput){
         $this->mastery = $masteryInput;
     }
 
@@ -152,35 +152,37 @@ $response->getHeaders();
 
 $body = $response->getBody()->getContents();
 
+//print_r($body);
+
 $characterInfo = json_decode($body, true);
 
-echo "<pre>";
+/*echo "<pre>";
 print_r($characterInfo);
-echo "</pre>";
+echo "</pre>";*/
 
 $character = new CharacterEquipment($characterInfo['character']['name']);
 
 //print_r($character);
 
-/*foreach ($characterInfo['equipped_items'] as $key => $item) {
+foreach ($characterInfo['equipped_items'] as $key => $item) {
     $equipment = new Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id']);
 
     foreach ($item['stats'] as $key => $stat) {
         switch ($stat['type']['type']) {
             case 'INTELLECT':
-                $equipment->setIntellect($stat['value'])
+                $equipment->setIntellect($stat['value']);
                 break;
             case 'AGILITY':
-                $equipment->setAgility($stat['value'])
+                $equipment->setAgility($stat['value']);
                 break;
             case 'STAMINA':
-                $equipment->setStamina($stat['value'])
+                $equipment->setStamina($stat['value']);
                 break;
             case 'HASTE_RATING':
-                $equipment->setHaste($stat['value'])
+                $equipment->setHaste($stat['value']);
                 break;
             case 'MASTERY_RATING':
-                $equipment->setMastery($stat['value'])
+                $equipment->setMastery($stat['value']);
                 break;
             default:
                 echo "new stat, or error";
@@ -198,46 +200,51 @@ $character = new CharacterEquipment($characterInfo['character']['name']);
         case 'SHOULDER':
             $character->setShoulder($equipment);
             break;
-        case 'SHOULDER':
-            $characdter->setShoulder($equipment);
+        case 'CHEST':
+            $character->setChest($equipment);
             break;
-        case 'SHOULDER':
-            $character->setShoulder($equipment);
+        case 'WAIST':
+            $character->setWaist($equipment);
             break;
-        case 'SHOULDER':
-            $character->setShoulder($equipment);
+        case 'LEGS':
+            $character->setLegs($equipment);
             break;
-        case 'SHOULDER':
-            $character->setShoulder($equipment);
+        case 'FEET':
+            $character->setFeets($equipment);
             break;
-        case 'SHOULDER':
-            $character->setShoulder($equipment);
+        case 'WRIST':
+            $character->setWrist($equipment);
             break;
-        case 'SHOULDER':
-            $character->setShoulder($equipment);
+        case 'HANDS':
+            $character->setHands($equipment);
             break;
-        case 'SHOULDER':
-            $character->setShoulder($equipment);
+        case 'FINGER_1':
+            $character->setFinger1($equipment);
             break;
-
-        public $chest;
-        public $waist;
-        public $legs;
-        public $feets;
-        public $wrist;
-        public $hands;
-        public $finger1;
-        public $finger2;
-        public $trinket1;
-        public $trinket2;
-        public $back;
-        public $mainWeapon;
-        public $shield;
-        
+        case 'FINGER_2':
+            $character->setFinger2($equipment);
+            break;
+        case 'TRINKET_1':
+            $character->setTrinket1($equipment);
+            break;
+        case 'TRINKET_2':
+            $character->setTrinket2($equipment);
+            break;
+        case 'BACK':
+            $character->setBack($equipment);
+            break;
+        case 'MAIN_HAND':
+            $character->setMainWeapon($equipment);
+            break;
+        case 'OFF_HAND':
+            $character->setShield($equipment);
+            break;
         default:
             # code...
             break;
     }
-}*/
+}
+
+print_r($character);
 
 ?>
