@@ -16,6 +16,10 @@ class Equipment{
     public $versatility;
     public $avoidance;
     public $strength;
+    public $sturdiness;
+    public $speed;
+    public $lifesteal;
+    public $corruptionResistance;
 
 	public function __construct($nameInput, $itemLevelInput, $armorInput, $armorTypeInput){
         $this->name = $nameInput;
@@ -54,6 +58,22 @@ class Equipment{
 
     public function setStrength($strengthInput){
         $this->strength = $strengthInput;
+    }
+
+    public function setSturdy($sturdyInput){
+        $this->sturdiness = $sturdyInput;
+    }
+
+    public function setSpeed($speedInput){
+        $this->speed = $speedInput;
+    }
+
+    public function setLifesteal($lifestealInput){
+        $this->lifesteal = $lifestealInput;
+    }
+
+    public function setCorptResist($corruptInput){
+        $this->corruptionResistance = $corruptInput;
     }
 }
 

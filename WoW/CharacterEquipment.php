@@ -23,12 +23,126 @@ class CharacterEquipment{
 	public $back;
 	public $mainWeapon;
 	public $shield;
-    public $characterInfo;
 
-	public function __construct($characterInfo){
-        $this->characterName = $characterInfo['character']['name'];
-        $this->characterInfo = $characterInfo;
-        equipmentImport();
+    public function equipmentImport($characterInfo){
+        foreach ($characterInfo['equipped_items'] as $key => $item) {
+            $equipment = new Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id']);
+
+            if($item['slot']['type'] == "SHIRT" || $item['slot']['type'] == "TABARD"){
+                continue;
+            }
+
+            if(isset($item['stats'])){
+                foreach ($item['stats'] as $key => $stat) {
+                    switch ($stat['type']['type']) {
+                        case 'INTELLECT':
+                            $equipment->setIntellect($stat['value']);
+                            break;
+                        case 'AGILITY':
+                            $equipment->setAgility($stat['value']);
+                            break;
+                        case 'STRENGTH':
+                            $equipment->setStrength($stat['value']);
+                            break;
+                        case 'STAMINA':
+                            $equipment->setStamina($stat['value']);
+                            break;
+                        case 'HASTE_RATING':
+                            $equipment->setHaste($stat['value']);
+                            break;
+                        case 'MASTERY_RATING':
+                            $equipment->setMastery($stat['value']);
+                            break;
+                        case 'CRIT_RATING':
+                            $equipment->setMastery($stat['value']);
+                            break;
+                        case 'VERSATILITY':
+                            $equipment->setVerse($stat['value']);
+                            break;
+                        case 'COMBAT_RATING_AVOIDANCE':
+                            $equipment->setAvoid($stat['value']);
+                            break;
+                        case 'COMBAT_RATING_STURDINESS':
+                            $equipment->setSturdy($stat['value']);
+                            break;
+                        case 'COMBAT_RATING_SPEED':
+                            $equipment->setSpeed($stat['value']);
+                            break;
+                        case 'COMBAT_RATING_LIFESTEAL':
+                            $equipment->setLifesteal($stat['value']);
+                            break;
+                        case 'CORRUPTION_RESISTANCE':
+                            $equipment->setCorptResist($stat['value']);
+                            break;
+                        default:
+                            echo "new stat, or error " . $stat['type']['type'] . "</br>";
+                            break;
+                    }
+                }
+            }
+            
+            switch ($item['slot']['type']) {
+                case 'HEAD':
+                    $this->setHead($equipment);
+                    break;
+                case 'NECK':
+                    $this->setNeck($equipment);
+                    break;
+                case 'SHOULDER':
+                    $this->setShoulder($equipment);
+                    break;
+                case 'CHEST':
+                    $this->setChest($equipment);
+                    break;
+                case 'WAIST':
+                    $this->setWaist($equipment);
+                    break;
+                case 'LEGS':
+                    $this->setLegs($equipment);
+                    break;
+                case 'FEET':
+                    $this->setFeets($equipment);
+                    break;
+                case 'WRIST':
+                    $this->setWrist($equipment);
+                    break;
+                case 'HANDS':
+                    $this->setHands($equipment);
+                    break;
+                case 'FINGER_1':
+                    $this->setFinger1($equipment);
+                    break;
+                case 'FINGER_2':
+                    $this->setFinger2($equipment);
+                    break;
+                case 'TRINKET_1':
+                    $this->setTrinket1($equipment);
+                    break;
+                case 'TRINKET_2':
+                    $this->setTrinket2($equipment);
+                    break;
+                case 'BACK':
+                    $this->setBack($equipment);
+                    break;
+                case 'MAIN_HAND':
+                    $this->setMainWeapon($equipment);
+                    break;
+                case 'OFF_HAND':
+                    $this->setShield($equipment);
+                    break;
+                case 'SHIRT':
+                    break;
+                case 'TABARD':
+                    break;
+                default:
+                    echo "new item, or error" . $item['slot']['type'] . "</br>";
+                    break;
+            }
+        }
+    }
+
+	public function __construct($name){
+        $this->characterName = $name;
     }
 
     public function setHead($headInput){
@@ -97,109 +211,6 @@ class CharacterEquipment{
 
     public function saveCharacter($type){
 
-    }
-
-    public function equipmentImport(){
-        foreach ($characterInfo['equipped_items'] as $key => $item) {
-            $equipment = new Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id']);
-
-            if($item['slot']['type'] == "SHIRT" || $item['slot']['type'] == "TABARD"){
-                continue;
-            }
-
-            foreach ($item['stats'] as $key => $stat) {
-                switch ($stat['type']['type']) {
-                    case 'INTELLECT':
-                        $equipment->setIntellect($stat['value']);
-                        break;
-                    case 'AGILITY':
-                        $equipment->setAgility($stat['value']);
-                        break;
-                    case 'STRENGTH':
-                        $equipment->setStrength($stat['value']);
-                        break;
-                    case 'STAMINA':
-                        $equipment->setStamina($stat['value']);
-                        break;
-                    case 'HASTE_RATING':
-                        $equipment->setHaste($stat['value']);
-                        break;
-                    case 'MASTERY_RATING':
-                        $equipment->setMastery($stat['value']);
-                        break;
-                    case 'CRIT_RATING':
-                        $equipment->setMastery($stat['value']);
-                        break;
-                    case 'VERSATILITY':
-                        $equipment->setVerse($stat['value']);
-                        break;
-                    case 'COMBAT_RATING_AVOIDANCE':
-                        $equipment->setAvoid($stat['value']);
-                        break;
-                    default:
-                        echo "new stat, or error" . $stat['type']['type'] . "</br>";
-                        break;
-                }
-            }
-            
-            switch ($item['slot']['type']) {
-                case 'HEAD':
-                    $this->setHead($equipment);
-                    break;
-                case 'NECK':
-                    $this->setNeck($equipment);
-                    break;
-                case 'SHOULDER':
-                    $this->setShoulder($equipment);
-                    break;
-                case 'CHEST':
-                    $this->setChest($equipment);
-                    break;
-                case 'WAIST':
-                    $this->setWaist($equipment);
-                    break;
-                case 'LEGS':
-                    $this->setLegs($equipment);
-                    break;
-                case 'FEET':
-                    $this->setFeets($equipment);
-                    break;
-                case 'WRIST':
-                    $this->setWrist($equipment);
-                    break;
-                case 'HANDS':
-                    $this->setHands($equipment);
-                    break;
-                case 'FINGER_1':
-                    $this->setFinger1($equipment);
-                    break;
-                case 'FINGER_2':
-                    $this->setFinger2($equipment);
-                    break;
-                case 'TRINKET_1':
-                    $this->setTrinket1($equipment);
-                    break;
-                case 'TRINKET_2':
-                    $this->setTrinket2($equipment);
-                    break;
-                case 'BACK':
-                    $this->setBack($equipment);
-                    break;
-                case 'MAIN_HAND':
-                    $this->setMainWeapon($equipment);
-                    break;
-                case 'OFF_HAND':
-                    $this->setShield($equipment);
-                    break;
-                case 'SHIRT':
-                    break;
-                case 'TABARD':
-                    break;
-                default:
-                    echo "new item, or error" . $item['slot']['type'] . "</br>";
-                    break;
-            }
-        }
     }
 }
 

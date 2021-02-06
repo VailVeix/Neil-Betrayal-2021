@@ -214,7 +214,12 @@ class WorldOfWarcraft extends Service
      */
     public function getItem($itemId, array $options = [])
     {
-        return $this->request('/item/'.(int) $itemId, $options);
+        $response = $this->request('/data/wow/item/'.(int) $itemId, $options);
+        $response->getStatusCode();
+        $response->getHeaders();
+        $body = $response->getBody()->getContents();
+        $guildRoster = json_decode($body, true);
+        return $guildRoster;
     }
 
     /**
