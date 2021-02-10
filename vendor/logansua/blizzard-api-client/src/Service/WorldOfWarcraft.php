@@ -16,6 +16,16 @@ class WorldOfWarcraft extends Service
      */
     protected $serviceParam = '';
 
+    public function getItemPic($itemID, array $options = [])
+    {
+        $response = $this->request('/data/wow/media/item/'. $itemID, $options);
+        $response->getStatusCode();
+        $response->getHeaders();
+        $body = $response->getBody()->getContents();
+        $itemInfo = json_decode($body, true);
+        return $itemInfo;
+    }
+
     public function getGuildRoster($realmSlug, $guildName, array $options = [])
     {
         $response = $this->request('/data/wow/guild/'. $realmSlug . '/' . $guildName . '/roster', $options);

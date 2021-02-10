@@ -3,7 +3,7 @@
 namespace WoW;
 
 class Equipment{
-    public $itemID;
+    //public $itemID;
 	public $name;
 	public $itemLevel;
 	public $armor;
@@ -20,12 +20,14 @@ class Equipment{
     public $speed;
     public $lifesteal;
     public $corruptionResistance;
+    public $imageLink;
 
-	public function __construct($nameInput, $itemLevelInput, $armorInput, $armorTypeInput){
+	public function __construct($nameInput, $itemLevelInput, $armorInput, $armorTypeInput, $imageLink){
         $this->name = $nameInput;
         $this->itemLevel = $itemLevelInput;
         $this->armorInput = $armorInput;
         $this->armorTypeInput = $armorTypeInput;
+        $this->imageLink = $imageLink;
     }
 
     public function setIntellect($intellectInput){
@@ -74,6 +76,10 @@ class Equipment{
 
     public function setCorptResist($corruptInput){
         $this->corruptionResistance = $corruptInput;
+    }
+
+    public function setImage($imageInput){
+        $this->imageLink = $imageInput;
     }
 }
 

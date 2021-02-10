@@ -6,6 +6,8 @@ $guildID = 1;
 
 $db_link = new PDO('mysql:host=localhost;dbname=vailveix_neil_betrayal_2021', "vailveix_maine", "e5l=QVfC]gOA");
 
+$raiders = array("Thelvadam", "Brøx", "Talvisota", "Zymandias", "Beardeddog", "Ketharion", "Shinoboo", "Nurfazzar", "Harprogue", "Grego", "Mariolemieux", "Mizukisama", "Fumino", "Ilidanshlong", "Mooanna", "Asta", "Eunwol", "Magnale", "Shelfonaelf", "Mahjarrat", "Fursoc", "Moumoku");
+
 //$armorTypes = ["", "", "", "Mail"];
 
 // Assist Functions
@@ -27,7 +29,7 @@ $db_link = new PDO('mysql:host=localhost;dbname=vailveix_neil_betrayal_2021', "v
 
 // Raid bosses & item drops & stuff
 
-$itemInfo = $wow->getItem(182993, ['namespace' => 'static-us', 'access_token' => $accessToken]);
+//$itemInfo = $wow->getItem(182993, ['namespace' => 'static-us', 'access_token' => $accessToken]);
 
 /*echo "<pre>";
 print_r($itemInfo);
@@ -42,21 +44,38 @@ $guildRoster = $wow->getGuildRoster($guildInfo['realmSlug'], $guildInfo['name'],
 
 $members = array();
 
+$count = 0;
+
 foreach ($guildRoster['members'] as $key => $guildie) {
     $characterInfo = $wow->getCharacterEquipment($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
 
+    if(!in_array($characterInfo['character']['name'], $raiders)){
+        continue;
+    }
+
+    $character = new \WoW\CharacterEquipment($characterInfo['character']['name'], $count);
+    foreach ($characterInfo['equipped_items'] as $key => $item) {
+        $imageInfo = $wow->getItemPic($item['media']['id'], ['namespace' => 'static-us', 'access_token' => $accessToken]);
+        $equipment = new \WoW\Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id'], $imageInfo['assets']['value']);    
+        $character->equipmentImport($equipment, $item);
+    }
+
+    echo $character->quickPrint();
+    echo "</br>";
+
     echo "<pre>";
-    print_r($characterInfo);
+    print_r($character);
     echo "</pre>";
 
-    $character = new \WoW\CharacterEquipment($characterInfo['character']['name']);
-    $character->equipmentImport($characterInfo);
+    if($count == 0){
+        exit();
+    }
+
     array_push($members, $character);
+    $count++;
 }
 
 /*echo "<pre>";
 print_r($members);
 echo "</pre>";*/
-
-
 ?>
