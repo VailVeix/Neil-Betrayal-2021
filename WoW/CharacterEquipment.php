@@ -212,7 +212,23 @@ class CharacterEquipment{
     }
 
     public function quickPrint(){
-        return '{id:"' . $this->id . '", characterName:"' . $this->characterName . '", head:"' . $this->head->imageLink . '", neck:"' . $this->neck->imageLink . '", shoulder:"' . $this->shoulder->imageLink . '", chest:"' . $this->chest->imageLink . '", waist:"' . $this->waist->imageLink . '", legs:"' . $this->legs->imageLink . '", feets:"' . $this->feets->imageLink . '", wrist:"' . $this->wrist->imageLink . '", hands:"' . $this->hands->imageLink . '", finger1:"' . $this->finger1->imageLink . '", finger2:"' . $this->finger2->imageLink . '", trinket1:"' . $this->trinket1->imageLink . '", trinket2:"' . $this->trinket2->imageLink . '", back:"' . $this->back->imageLink . '", mainWeapon:"' . $this->mainWeapon->imageLink . '", shield:"' . $this->shield->imageLink . '"},';
+        return '{id:"' . $this->id . '", characterName:"' . $this->characterName . 
+            '", headLevel:"' . $this->head->itemLevel . '", neckLevel:"' . $this->neck->itemLevel . 
+            '", headImage:"' . $this->head->imageLink . '", neckImage:"' . $this->neck->imageLink . 
+            '", shoulderLevel:"' . $this->shoulder->itemLevel . '", chestLevel:"' . $this->chest->itemLevel . 
+            '", shoulderImage:"' . $this->shoulder->imageLink . '", chestImage:"' . $this->chest->imageLink . 
+            '", waistLevel:"' . $this->waist->itemLevel . '", legsLevel:"' . $this->legs->itemLevel . 
+            '", waistImage:"' . $this->waist->imageLink . '", legsImage:"' . $this->legs->imageLink . 
+            '", feetsLevel:"' . $this->feets->itemLevel . '", wristLevel:"' . $this->wrist->itemLevel . 
+            '", feetsImage:"' . $this->feets->imageLink . '", wristImage:"' . $this->wrist->imageLink . 
+            '", handsLevel:"' . $this->hands->itemLevel . '", finger1Level:"' . $this->finger1->itemLevel . 
+            '", handsImage:"' . $this->hands->imageLink . '", finger1Image:"' . $this->finger1->imageLink . 
+            '", finger2Level:"' . $this->finger2->itemLevel . '", trinket1Level:"' . $this->trinket1->itemLevel . 
+            '", finger2Image:"' . $this->finger2->imageLink . '", trinket1Image:"' . $this->trinket1->imageLink . 
+            '", trinket2Level:"' . $this->trinket2->itemLevel . '", backLevel:"' . $this->back->itemLevel . 
+            '", trinket2Image:"' . $this->trinket2->imageLink . '", backImage:"' . $this->back->imageLink . 
+            '", mainWeaponLevel:"' . $this->mainWeapon->itemLevel . '", shieldLevel:"' . $this->shield->itemLevel .
+            '", mainWeaponImage:"' . $this->mainWeapon->imageLink . '", shieldImage:"' . $this->shield->imageLink . '"},';
     }
 }
 

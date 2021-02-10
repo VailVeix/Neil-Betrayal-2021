@@ -56,20 +56,20 @@ foreach ($guildRoster['members'] as $key => $guildie) {
     $character = new \WoW\CharacterEquipment($characterInfo['character']['name'], $count);
     foreach ($characterInfo['equipped_items'] as $key => $item) {
         $imageInfo = $wow->getItemPic($item['media']['id'], ['namespace' => 'static-us', 'access_token' => $accessToken]);
-        $equipment = new \WoW\Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id'], $imageInfo['assets']['value']);    
+        $equipment = new \WoW\Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id'], $imageInfo['assets'][0]['value']);
         $character->equipmentImport($equipment, $item);
     }
 
     echo $character->quickPrint();
     echo "</br>";
 
-    echo "<pre>";
+    /*echo "<pre>";
     print_r($character);
     echo "</pre>";
 
     if($count == 0){
         exit();
-    }
+    }*/
 
     array_push($members, $character);
     $count++;
