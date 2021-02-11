@@ -1,12 +1,14 @@
 <?php
 require_once 'vendor/autoload.php';
-
 //$guildID = $_GET['id'];
 $guildID = 1;
 
 $db_link = new PDO('mysql:host=localhost;dbname=vailveix_neil_betrayal_2021', "vailveix_maine", "e5l=QVfC]gOA");
 
 $raiders = array("Thelvadam", "Brøx", "Talvisota", "Zymandias", "Beardeddog", "Ketharion", "Shinoboo", "Nurfazzar", "Harprogue", "Grego", "Mariolemieux", "Mizukisama", "Fumino", "Ilidanshlong", "Mooanna", "Asta", "Eunwol", "Magnale", "Shelfonaelf", "Mahjarrat", "Fursoc", "Moumoku");
+
+$query = "select icon from classes where 1";
+$classInfo = $db_link->query($query)->fetchAll(\PDO::FETCH_ASSOC);
 
 //$armorTypes = ["", "", "", "Mail"];
 
@@ -48,12 +50,17 @@ $count = 0;
 
 foreach ($guildRoster['members'] as $key => $guildie) {
     $characterInfo = $wow->getCharacterEquipment($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
+    $character = $wow->getCharacter($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
 
     if(!in_array($characterInfo['character']['name'], $raiders)){
         continue;
     }
 
-    $character = new \WoW\CharacterEquipment($characterInfo['character']['name'], $count);
+    /*echo "<pre>";
+    print_r($character);
+    echo "</pre>";*/
+
+    $character = new \WoW\Character($characterInfo['character']['name'], $count, $character['race'], $character['character_class'], $character['active_spec'], $classInfo[$character['race']['id']]['icon']);
     foreach ($characterInfo['equipped_items'] as $key => $item) {
         $imageInfo = $wow->getItemPic($item['media']['id'], ['namespace' => 'static-us', 'access_token' => $accessToken]);
         $equipment = new \WoW\Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id'], $imageInfo['assets'][0]['value']);
@@ -65,11 +72,11 @@ foreach ($guildRoster['members'] as $key => $guildie) {
 
     /*echo "<pre>";
     print_r($character);
-    echo "</pre>";
+    echo "</pre>";*/
 
     if($count == 0){
         exit();
-    }*/
+    }
 
     array_push($members, $character);
     $count++;

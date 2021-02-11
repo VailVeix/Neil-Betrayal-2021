@@ -16,6 +16,16 @@ class WorldOfWarcraft extends Service
      */
     protected $serviceParam = '';
 
+    public function getCharacter($realmSlug, $characterName, array $options = [])
+    {
+        $response = $this->request('/profile/wow/character/'. $realmSlug . '/' . $characterName, $options);
+        $response->getStatusCode();
+        $response->getHeaders();
+        $body = $response->getBody()->getContents();
+        $character = json_decode($body, true);
+        return $character;
+    }
+
     public function getItemPic($itemID, array $options = [])
     {
         $response = $this->request('/data/wow/media/item/'. $itemID, $options);
@@ -177,10 +187,6 @@ class WorldOfWarcraft extends Service
      *
      * @return ResponseInterface
      */
-    public function getCharacter($realm, $characterName, array $options = [])
-    {
-        return $this->request('/character/'.(string) $realm.'/'.(string) $characterName, $options);
-    }
 
     // endregion Character profile API
 

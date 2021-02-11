@@ -4,9 +4,17 @@ namespace WoW;
 
 use WoW\Equipment;
 
-class CharacterEquipment{
+class Character{
 
 	private $characterName;
+    private $id;
+
+    private $race;
+    private $class;
+    private $spec;
+    private $classIcon;
+
+    // Equipment
 	private $head;
 	private $neck;
 	private $shoulder;
@@ -23,7 +31,79 @@ class CharacterEquipment{
 	private $back;
 	private $mainWeapon;
 	private $shield;
-    private $id;
+
+	public function __construct($name, $id, $race, $class, $spec, $classIcon){
+        $this->characterName = $name;
+        $this->id = $id;
+        $this->race = $race;
+        $this->class = $class;
+        $this->spec = $spec;
+        $this->classIcon = $classIcon;
+    }
+
+    public function setHead($headInput){
+    	$this->head = $headInput;
+    }
+
+    public function setNeck($neckInput){
+    	$this->neck = $neckInput;
+    }
+
+    public function setShoulder($shoulderInput){
+    	$this->shoulder = $shoulderInput;
+    }
+
+    public function setChest($chestInput){
+    	$this->chest = $chestInput;
+    }
+
+    public function setWaist($waistInput){
+    	$this->waist = $waistInput;
+    }
+
+    public function setLegs($legsInput){
+    	$this->legs = $legsInput;
+    }
+
+    public function setFeets($feetsInput){
+    	$this->feets = $feetsInput;
+    }
+
+    public function setWrist($wristInput){
+    	$this->wrist = $wristInput;
+    }
+
+    public function setHands($handsInput){
+    	$this->hands = $handsInput;
+    }
+
+    public function setFinger1($fnger1Input){
+    	$this->finger1 = $fnger1Input;
+    }
+
+    public function setFinger2($finger2Input){
+    	$this->finger2 = $finger2Input;
+    }
+
+    public function setTrinket1($trinket1Input){
+    	$this->trinket1 = $trinket1Input;
+    }
+
+    public function setTrinket2($trinket2Input){
+    	$this->trinket2 = $trinket2Input;
+    }
+
+    public function setBack($backInput){
+    	$this->back = $backInput;
+    }
+
+    public function setMainWeapon($mainWeaponInput){
+    	$this->mainWeapon = $mainWeaponInput;
+    }
+
+    public function setShield($shieldInput){
+    	$this->shield = $shieldInput;
+    }
 
     public function equipmentImport($equipment, $item){
         if($item['slot']['type'] == "SHIRT" || $item['slot']['type'] == "TABARD"){
@@ -138,75 +218,6 @@ class CharacterEquipment{
         }
     }
 
-	public function __construct($name, $id){
-        $this->characterName = $name;
-        $this->id = $id;
-    }
-
-    public function setHead($headInput){
-    	$this->head = $headInput;
-    }
-
-    public function setNeck($neckInput){
-    	$this->neck = $neckInput;
-    }
-
-    public function setShoulder($shoulderInput){
-    	$this->shoulder = $shoulderInput;
-    }
-
-    public function setChest($chestInput){
-    	$this->chest = $chestInput;
-    }
-
-    public function setWaist($waistInput){
-    	$this->waist = $waistInput;
-    }
-
-    public function setLegs($legsInput){
-    	$this->legs = $legsInput;
-    }
-
-    public function setFeets($feetsInput){
-    	$this->feets = $feetsInput;
-    }
-
-    public function setWrist($wristInput){
-    	$this->wrist = $wristInput;
-    }
-
-    public function setHands($handsInput){
-    	$this->hands = $handsInput;
-    }
-
-    public function setFinger1($fnger1Input){
-    	$this->finger1 = $fnger1Input;
-    }
-
-    public function setFinger2($finger2Input){
-    	$this->finger2 = $finger2Input;
-    }
-
-    public function setTrinket1($trinket1Input){
-    	$this->trinket1 = $trinket1Input;
-    }
-
-    public function setTrinket2($trinket2Input){
-    	$this->trinket2 = $trinket2Input;
-    }
-
-    public function setBack($backInput){
-    	$this->back = $backInput;
-    }
-
-    public function setMainWeapon($mainWeaponInput){
-    	$this->mainWeapon = $mainWeaponInput;
-    }
-
-    public function setShield($shieldInput){
-    	$this->shield = $shieldInput;
-    }
-
     public function saveCharacter($type){
 
     }
@@ -228,7 +239,8 @@ class CharacterEquipment{
             '", trinket2Level:"' . $this->trinket2->itemLevel . '", backLevel:"' . $this->back->itemLevel . 
             '", trinket2Image:"' . $this->trinket2->imageLink . '", backImage:"' . $this->back->imageLink . 
             '", mainWeaponLevel:"' . $this->mainWeapon->itemLevel . '", shieldLevel:"' . $this->shield->itemLevel .
-            '", mainWeaponImage:"' . $this->mainWeapon->imageLink . '", shieldImage:"' . $this->shield->imageLink . '"},';
+            '", mainWeaponImage:"' . $this->mainWeapon->imageLink . '", shieldImage:"' . $this->shield->imageLink . '",
+            race:"' . $this->race['name'] . '", class:"' . $this->class['name'] . '", spec:"' . $this->spec['name'] . '", classIcon:"' . $this->classIcon . '"},';
     }
 }
 
