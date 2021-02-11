@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 require_once 'vendor/autoload.php';
 //$guildID = $_GET['id'];
 $guildID = 1;
@@ -48,6 +49,8 @@ $members = array();
 
 $count = 0;
 
+echo "[";
+
 foreach ($guildRoster['members'] as $key => $guildie) {
     $characterInfo = $wow->getCharacterEquipment($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
     $character = $wow->getCharacter($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
@@ -60,7 +63,7 @@ foreach ($guildRoster['members'] as $key => $guildie) {
     print_r($character);
     echo "</pre>";*/
 
-    $character = new \WoW\Character($characterInfo['character']['name'], $count, $character['race'], $character['character_class'], $character['active_spec'], $classInfo[$character['race']['id']]['icon']);
+    $character = new \WoW\Character($characterInfo['character']['name'], $count, $character['race'], $character['character_class'], $character['active_spec'], $classInfo[$character['character_class']['id']-1]['icon']);
     foreach ($characterInfo['equipped_items'] as $key => $item) {
         $imageInfo = $wow->getItemPic($item['media']['id'], ['namespace' => 'static-us', 'access_token' => $accessToken]);
         $equipment = new \WoW\Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id'], $imageInfo['assets'][0]['value']);
@@ -74,13 +77,15 @@ foreach ($guildRoster['members'] as $key => $guildie) {
     print_r($character);
     echo "</pre>";*/
 
-    if($count == 0){
+    /*if($count == 0){
         exit();
-    }
+    }*/
 
     array_push($members, $character);
     $count++;
 }
+
+echo "]";
 
 /*echo "<pre>";
 print_r($members);
