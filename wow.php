@@ -79,7 +79,7 @@ foreach ($guildRoster['members'] as $key => $guildie) {
 
     /*if($count == 0){
         exit();
-    }*///
+    }*/
 
     array_push($members, $character);
     $count++;
