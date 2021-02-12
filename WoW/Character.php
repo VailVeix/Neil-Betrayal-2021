@@ -223,24 +223,24 @@ class Character{
     }
 
     public function quickPrint(){
-        return '{id:"' . $this->id . '", characterName:"' . $this->characterName . 
-            '", headLevel:"' . $this->head->itemLevel . '", neckLevel:"' . $this->neck->itemLevel . 
-            '", headImage:"' . $this->head->imageLink . '", neckImage:"' . $this->neck->imageLink . 
-            '", shoulderLevel:"' . $this->shoulder->itemLevel . '", chestLevel:"' . $this->chest->itemLevel . 
-            '", shoulderImage:"' . $this->shoulder->imageLink . '", chestImage:"' . $this->chest->imageLink . 
-            '", waistLevel:"' . $this->waist->itemLevel . '", legsLevel:"' . $this->legs->itemLevel . 
-            '", waistImage:"' . $this->waist->imageLink . '", legsImage:"' . $this->legs->imageLink . 
-            '", feetsLevel:"' . $this->feets->itemLevel . '", wristLevel:"' . $this->wrist->itemLevel . 
-            '", feetsImage:"' . $this->feets->imageLink . '", wristImage:"' . $this->wrist->imageLink . 
-            '", handsLevel:"' . $this->hands->itemLevel . '", finger1Level:"' . $this->finger1->itemLevel . 
-            '", handsImage:"' . $this->hands->imageLink . '", finger1Image:"' . $this->finger1->imageLink . 
-            '", finger2Level:"' . $this->finger2->itemLevel . '", trinket1Level:"' . $this->trinket1->itemLevel . 
-            '", finger2Image:"' . $this->finger2->imageLink . '", trinket1Image:"' . $this->trinket1->imageLink . 
-            '", trinket2Level:"' . $this->trinket2->itemLevel . '", backLevel:"' . $this->back->itemLevel . 
-            '", trinket2Image:"' . $this->trinket2->imageLink . '", backImage:"' . $this->back->imageLink . 
-            '", mainWeaponLevel:"' . $this->mainWeapon->itemLevel . '", shieldLevel:"' . $this->shield->itemLevel .
-            '", mainWeaponImage:"' . $this->mainWeapon->imageLink . '", shieldImage:"' . $this->shield->imageLink . '",
-            race:"' . $this->race['name'] . '", class:"' . $this->class['name'] . '", spec:"' . $this->spec['name'] . '", classIcon:"' . $this->classIcon . '"},';
+        return '{"id":"' . $this->id . '", "characterName":"' . $this->characterName . 
+            '", "headLevel":"' . $this->head->itemLevel . '", "neckLevel":"' . $this->neck->itemLevel . 
+            '", "headImage":"' . $this->head->imageLink . '", "neckImage":"' . $this->neck->imageLink . 
+            '", "shoulderLevel":"' . $this->shoulder->itemLevel . '", "chestLevel":"' . $this->chest->itemLevel . 
+            '", "shoulderImage":"' . $this->shoulder->imageLink . '", "chestImage":"' . $this->chest->imageLink . 
+            '", "waistLevel":"' . $this->waist->itemLevel . '", "legsLevel":"' . $this->legs->itemLevel . 
+            '", "waistImage":"' . $this->waist->imageLink . '", "legsImage":"' . $this->legs->imageLink . 
+            '", "feetsLevel":"' . $this->feets->itemLevel . '", "wristLevel":"' . $this->wrist->itemLevel . 
+            '", "feetsImage":"' . $this->feets->imageLink . '", "wristImage":"' . $this->wrist->imageLink . 
+            '", "handsLevel":"' . $this->hands->itemLevel . '", "finger1Level":"' . $this->finger1->itemLevel . 
+            '", "handsImage":"' . $this->hands->imageLink . '", "finger1Image":"' . $this->finger1->imageLink . 
+            '", "finger2Level":"' . $this->finger2->itemLevel . '", "trinket1Level":"' . $this->trinket1->itemLevel . 
+            '", "finger2Image":"' . $this->finger2->imageLink . '", "trinket1Image":"' . $this->trinket1->imageLink . 
+            '", "trinket2Level":"' . $this->trinket2->itemLevel . '", "backLevel":"' . $this->back->itemLevel . 
+            '", "trinket2Image":"' . $this->trinket2->imageLink . '", "backImage":"' . $this->back->imageLink . 
+            '", "mainWeaponLevel":"' . $this->mainWeapon->itemLevel . '", "shieldLevel":"' . $this->shield->itemLevel .
+            '", "mainWeaponImage":"' . $this->mainWeapon->imageLink . '", "shieldImage":"' . $this->shield->imageLink . '",
+            "race":"' . $this->race['name'] . '", "class":"' . $this->class['name'] . '", "spec":"' . $this->spec['name'] . '", "classIcon":"' . $this->classIcon . '"}';
     }
 }
 

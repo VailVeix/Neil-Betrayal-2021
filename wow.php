@@ -30,14 +30,6 @@ $classInfo = $db_link->query($query)->fetchAll(\PDO::FETCH_ASSOC);
 
     $accessToken = $client->getAccessToken();
 
-// Raid bosses & item drops & stuff
-
-//$itemInfo = $wow->getItem(182993, ['namespace' => 'static-us', 'access_token' => $accessToken]);
-
-/*echo "<pre>";
-print_r($itemInfo);
-echo "</pre>";*/
-
 // Get Guild's Roster & Equipment
 
 $query = "select * from guilds where id=$guildID";
@@ -51,17 +43,13 @@ $count = 0;
 
 echo "[";
 
-foreach ($guildRoster['members'] as $key => $guildie) {
+foreach ($guildRoster['members'] as $guildKey => $guildie) {
     $characterInfo = $wow->getCharacterEquipment($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
     $character = $wow->getCharacter($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
 
     if(!in_array($characterInfo['character']['name'], $raiders)){
         continue;
     }
-
-    /*echo "<pre>";
-    print_r($character);
-    echo "</pre>";*/
 
     $character = new \WoW\Character($characterInfo['character']['name'], $count, $character['race'], $character['character_class'], $character['active_spec'], $classInfo[$character['character_class']['id']-1]['icon']);
     foreach ($characterInfo['equipped_items'] as $key => $item) {
@@ -71,23 +59,13 @@ foreach ($guildRoster['members'] as $key => $guildie) {
     }
 
     echo $character->quickPrint();
-    echo "</br>";
-
-    /*echo "<pre>";
-    print_r($character);
-    echo "</pre>";*/
-
-    /*if($count == 0){
-        exit();
-    }*///
+    if($count < 21){
+        echo ",";
+    }
 
     array_push($members, $character);
     $count++;
 }
 
 echo "]";
-
-/*echo "<pre>";
-print_r($members);
-echo "</pre>";*/
 ?>
