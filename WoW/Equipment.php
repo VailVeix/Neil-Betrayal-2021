@@ -25,9 +25,35 @@ class Equipment{
 	public function __construct($nameInput, $itemLevelInput, $armorInput, $armorTypeInput, $imageLink){
         $this->name = $nameInput;
         $this->itemLevel = $itemLevelInput;
-        $this->armorInput = $armorInput;
-        $this->armorTypeInput = $armorTypeInput;
+        $this->armor = $armorInput;
+        $this->armorType = $armorTypeInput;
         $this->imageLink = $imageLink;
+    }
+
+    public function save(){
+        return $this->name . "|" . $this->itemLevel  . "|" . $this->armor  . "|" . $this->armorType . "|" . $this->intellect . "|" . $this->agility . "|" . $this->stamina . "|" . $this->haste . "|" . $this->mastery . "|" . $this->versatility . "|" . $this->avoidance . "|" . $this->strength . "|" . $this->sturdiness . "|" . $this->speed  . "|" . $this->lifesteal . "|" . $this->corruptionResistance . "|" . $this->imageLink;
+    }
+
+    public function load($item){
+        $item = explode("|", $item);
+        
+        $this->name = $item[0];
+        $this->itemLevel = $item[1];
+        $this->armor = $item[2];
+        $this->armorType = $item[3];
+        $this->intellect = $item[4];
+        $this->agility = $item[5];
+        $this->stamina = $item[6];
+        $this->haste = $item[7];
+        $this->mastery = $item[8];
+        $this->versatility = $item[9];
+        $this->avoidance = $item[10];
+        $this->strength = $item[11];
+        $this->sturdiness = $item[12];
+        $this->speed = $item[13];
+        $this->lifesteal = $item[14];
+        $this->corruptionResistance = $item[15];
+        $this->imageLink = $item[16];
     }
 
     public function setIntellect($intellectInput){

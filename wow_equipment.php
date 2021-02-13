@@ -1,13 +1,12 @@
 <?php
-header("Access-Control-Allow-Origin: *");
+
 require_once 'vendor/autoload.php';
-//$guildID = $_GET['id'];
 $guildID = 1;
 
 $db_link = new PDO('mysql:host=localhost;dbname=vailveix_neil_betrayal_2021', "vailveix_maine", "e5l=QVfC]gOA");
 
 // Assist Functions
-    function characterNameParse($link){
+    function characterInfoNameParse($link){
         $last = strrpos($link, "/");
         $link = substr($link, $last+1);
         $link = explode("?", $link);
@@ -23,7 +22,7 @@ $db_link = new PDO('mysql:host=localhost;dbname=vailveix_neil_betrayal_2021', "v
 
     $accessToken = $client->getAccessToken();
 
-// Get Guild's Roster & Equipment
+// Get Guild's Roster's' Equipment
 
 $query = "select icon from classes where 1";
 $classInfo = $db_link->query($query)->fetchAll(\PDO::FETCH_ASSOC);
@@ -31,21 +30,18 @@ $classInfo = $db_link->query($query)->fetchAll(\PDO::FETCH_ASSOC);
 $query = "select * from raiders left join raiderInfo on raiders.blizzardID=raiderInfo.id where guildID=$guildID";
 $raiders = $db_link->query($query)->fetchAll(\PDO::FETCH_ASSOC);
 
-$count = 0;
-
-echo "[";
 foreach ($raiders as $guildKey => $guildie) {
     $character = new \WoW\Character($guildie['name'], $guildie['blizzardID'], $guildie['race'], $guildie['class'], $guildie['spec'], $guildID, $guildie['realmSlug'], $guildie['nameSlug']);
     $character->setClassIcon($classInfo[$guildie['class']-1]['icon']);
 
-    $character->loadEquipment($guildie['equipment']);
+    $characterEquipment = $wow->getCharacterEquipment($guildie['realmSlug'], $guildie['nameSlug'], ['namespace' => 'profile-us', 'access_token' => $accessToken]);
 
-    echo $character->quickPrint();
-    if($count < count($raiders)-1){
-        echo ",";
+    foreach ($characterEquipment['equipped_items'] as $key => $item) {
+        $imageInfo = $wow->getItemPic($item['media']['id'], ['namespace' => 'static-us', 'access_token' => $accessToken]);
+        $equipment = new \WoW\Equipment($item['name'], $item['level']['value'], $item['armor']['value'], $item['item_subclass']['id'], $imageInfo['assets'][0]['value']);
+        $character->equipmentImport($equipment, $item);
     }
-    $count++;
-}
 
-echo "]";
+    $db_link->exec($character->saveEquipment());
+}
 ?>
