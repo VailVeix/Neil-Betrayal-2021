@@ -5,7 +5,7 @@ $guildID = 1;
 
 $db_link = new PDO('mysql:host=localhost;dbname=vailveix_neil_betrayal_2021', "vailveix_maine", "e5l=QVfC]gOA");
 
-$raiders = array("Thelvadam", "Brøx", "Talvisota", "Zymandias", "Beardeddog", "Ketharion", "Shinoboo", "Nurfazzar", "Harprogue", "Grego", "Mariolemieux", "Mizukisama", "Fumino", "Ilidanshlong", "Mooanna", "Asta", "Eunwol", "Magnale", "Shelfonaelf", "Mahjarrat", "Fursoc", "Moumoku");
+$raiders = array("Thelvadam", "Brøx", "Talvisota", "Zymandias", "Beardeddog", "Shinoboo", "Nurfazzar", "Grego", "Mariolemieux", "Mizukisama", "Fumino", "Ilidanshlong", "Mooanna", "Asta", "Magnale", "Shelfonaelf", "Mahjarrat", "Fursoc", "Moumoku", "Dannyfofany", "McCao", "Beastlee", "Quiplash");
 
 // Assist Functions
     function characterNameParse($link){
@@ -34,7 +34,7 @@ $guildRoster = $wow->getGuildRoster($guildInfo['realmSlug'], $guildInfo['name'],
 foreach ($guildRoster['members'] as $guildKey => $guildie) {
     $characterInfo = $wow->getCharacter($guildie['character']['realm']['slug'], characterNameParse($guildie['character']['key']['href']), ['namespace' => 'profile-us', 'access_token' => $accessToken]);
 
-    if(!in_array($character['name'], $raiders)){
+    if(!in_array($characterInfo['name'], $raiders)){
         continue;
     }
 
@@ -51,6 +51,7 @@ foreach ($guildRoster['members'] as $guildKey => $guildie) {
     }   
 
     $db_link->exec($character->saveCharacter($type));
+    echo $character->saveCharacter($type);
 }
 
 ?>

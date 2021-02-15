@@ -44,4 +44,5 @@ foreach ($raiders as $guildKey => $guildie) {
 
     $db_link->exec($character->saveEquipment());
 }
+
 ?>
